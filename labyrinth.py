@@ -1,6 +1,5 @@
 #!usr/bin/env python3
 
-import json
 import os
 
 class Labyrinth:
@@ -29,14 +28,21 @@ class Labyrinth:
                 #print(structure_laby)
         return structure_laby
 
-    def display(self):
+    def display(self, x_position, y_position):
         """ Labyrinth display in the console """
+        self.x_position = x_position
+        self.y_position = y_position
         border = "    ================="
         print("\n" + border)
         for i in range (0, 15):
-            ligne = "".join(self.structure[i])
-            ligne_modif = ligne.replace("0"," ").replace("1","0")
-            print("    |" + ligne_modif + "|")
+            ligne = self.structure[i]
+            # moving of MacGyver on the labyrinth
+            if i == self.y_position:
+                ligne[x_position] = self.sprite_mgyver
+            # formatting of the character string for each line of the labyrinth
+            ligne_modif = "".join(ligne).replace("0"," ").replace("1","0").replace("f",self.sprite_guardian)
+            # print each line of the labyrinth
+            print("    |{}|".format(ligne_modif))
         print(border + "\n")
 
 
@@ -50,8 +56,7 @@ class Character:
         self.x_pos_mgyver = y_pos_mgyver= 0
         self.x_pos_guardian = self.y_pos_guardian = 14
 
-
-    def move(self):
+    def move(self, direction):
         pass
 
 
@@ -77,30 +82,37 @@ def main():
            'Deplacer MacGyver: "d" pour droite, "q" pour gauche, "z" pour haut, "s" pour bas\n',
            'Erreur de direction, vous sortez du cadre\n']
 
+    labyrinth = Labyrinth("laby.txt")
     message = msg[0]
     while True:
         print("position X: ",int(x_position))
         print("position Y: ",int(y_position))
         entry = input(message)
+        # if you press of Q key, tou quit the game
         if entry == "Q":
             break
+        # if press q or d or z or s, move MacGyver
         elif entry == "q" or entry == "d" or entry == "z" or entry == "s":
             message = msg[1]
             if entry == "d" and x_position < 14:
-                x_position += 1
+                # if a wall present, don't move MacGyver
+                if labyrinth.structure[y_position][x_position + 1] != "1":
+                    x_position += 1
             elif entry == "q" and x_position > 0:
-                x_position -= 1
+                if labyrinth.structure[y_position][x_position - 1] != "1":
+                    x_position -= 1
             elif entry == "z" and y_position > 0:
-                y_position -= 1
+                if labyrinth.structure[y_position - 1][x_position] != "1":
+                    y_position -= 1
             elif entry == "s" and y_position < 14:
-                y_position += 1
+                if labyrinth.structure[y_position + 1][x_position] != "1":
+                    y_position += 1
             else:
-                message = msg[2]+msg[1]
+                message = msg[2] + msg[1]
         else:
             message = msg[1]
 
-        labyrinth = Labyrinth("laby.txt")
-        labyrinth.display()
+        labyrinth.display(x_position, y_position)
 
 
 if __name__ == '__main__':
