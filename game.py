@@ -7,6 +7,7 @@ import character
 import objects
 import logging as log
 import argparse
+import pygame
 
 
 lab = labyrinth.Labyrinth()
