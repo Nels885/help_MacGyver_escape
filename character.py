@@ -4,6 +4,7 @@ class Character:
 
     def __init__(self):
         """ Initialize class Character """
+        self.sprite_guardian = "G"
         self.sprite_mgyver = "M"
         self.pos_mgyver = self.x_position, self.y_position = (1, 1)
         self.objects = 0
