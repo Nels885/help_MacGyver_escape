@@ -9,9 +9,8 @@ import logging as log
 import argparse
 import pygame
 
-
-lab = labyrinth.Labyrinth()
 cha = character.Character()
+lab = labyrinth.Labyrinth(cha.pos_mgyver)
 obj = objects.Objects()
 
 
@@ -29,6 +28,20 @@ def endgame(structure):
         end_game = True
     return end_game
 
+def display(structure):
+    for y in range (0, 15):
+        line_modif = ""
+        line = structure[y]
+        for value in line:
+            if value == "F":
+                value = cha.sprite_guardian
+            elif value == "1":
+                value = obj.sprite_needle
+            elif value == "2":
+                value = obj.sprite_tube
+            line_modif += value
+        # print each line of the labyrinth
+        print("      {}".format(line_modif))
 
 def main():
 
@@ -50,25 +63,26 @@ def main():
                 'Vous avez GAGNé :D !!!\n',
                 'Vous avez PERDU :( !!!\n']
 
+        # Initialize Labyrinth and sprite
         end = True
         message = msg[0]
         entry = None
         lab.structure(laby_file)
-        structure_laby = lab.structure_laby
-        pos_needle = obj.random_position(structure_laby)
-        pos_tube = obj.random_position(structure_laby)
-        structure_laby[pos_needle[1]][pos_needle[0]] = "1"
-        structure_laby[pos_tube[1]][pos_tube[0]] = "2"
+        pos_mgyver = cha.pos_mgyver
+        pos_needle = obj.random_position(lab.structure_laby)
+        pos_tube = obj.random_position(lab.structure_laby)
+        lab.add_sprite(pos_needle, "1")
+        lab.add_sprite(pos_tube, "2")
+        lab.add_sprite(pos_mgyver, cha.sprite_mgyver)
 
         while end == True:
 
+            structure_laby = lab.structure_laby
             os.system("clear")
             print("###################################\n"\
                 "## Aidez MacGyver à s'échapper ! ##\n"\
                 "###################################\n")
 
-            if not cha.check_position(entry, structure_laby):
-                log.warning(msg[2])
 
             if not endgame(structure_laby):
                 if cha.objects == 2:
@@ -78,9 +92,13 @@ def main():
                 log.warning(end_msg)
                 break
 
+            if not cha.check_position(entry, structure_laby):
+                log.warning(msg[2])
+            else:
+                lab.move_sprite(cha.pos_mgyver, cha.sprite_mgyver)
 
             # display of the Labyrinth in the console
-            lab.display(cha.pos_mgyver)
+            display(structure_laby)
 
             # display info messages or debug messages
             log.info("position X: {0}".format(int(cha.x_position)))
@@ -96,6 +114,8 @@ def main():
             elif entry == "q" or entry == "d" or entry == "z" or entry == "s":
                 cha.move(entry)
             message = msg[1]
+
+
     # return an error when the name of file is incorrect
     except FileNotFoundError as err:
         log.error(err)

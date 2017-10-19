@@ -1,22 +1,15 @@
-import character
-import objects
-
-ch = character.Character()
-ob = objects.Objects()
-
 class Labyrinth:
     """ Class of the labyrinth structure """
 
 
-    def __init__(self):
+    def __init__(self,pos_init):
         """ ## Initialize class Labyrinth ##
         Initialization of variables used by class Labyrinth
             - guardian sprite
             - list integrating the labyrinth structure
             - position of Macgyver"""
-        self.sprite_guardian = "G"
         self.structure_laby = []
-        self.pos_mgyver = ch.pos_mgyver
+        self.pos_init = pos_init
 
 
     def structure(self, file):
@@ -38,25 +31,13 @@ class Labyrinth:
         self.structure_laby = structure_laby
 
 
-    def display(self, position):
-        """ Labyrinth display in the console """
-        # moving of MacGyver on the labyrinth
-        self.structure_laby[self.pos_mgyver[1]][self.pos_mgyver[0]] = " "
-        self.pos_mgyver = position
-        self.structure_laby[self.pos_mgyver[1]][self.pos_mgyver[0]] = ch.sprite_mgyver
+    def add_sprite(self, position, sprite):
+        """ Add sprite on the Labyrinth """
+        self.structure_laby[position[1]][position[0]] = sprite
 
-        # display of labyrinth with objects and guardian
-        for y in range (0, 15):
-            line_modif = ""
-            line = self.structure_laby[y]
 
-            for sprite in line:
-                if sprite == "F":
-                    sprite = self.sprite_guardian
-                elif sprite == "1":
-                    sprite = ob.sprite_needle
-                elif sprite == "2":
-                    sprite = ob.sprite_tube
-                line_modif += sprite
-            # print each line of the labyrinth
-            print("      {}".format(line_modif))
+    def move_sprite(self, position, sprite):
+        """ Move sprite on the Labyrinth """
+        self.structure_laby[self.pos_init[1]][self.pos_init[0]] = " "
+        self.structure_laby[position[1]][position[0]] = sprite
+        self.pos_init = position
