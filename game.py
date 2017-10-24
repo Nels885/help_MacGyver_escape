@@ -2,16 +2,19 @@
 # coding: utf-8
 
 import os
+import time
 import labyrinth
 import character
 import objects
 import logging as log
 import argparse
 import pygame
+from pygame.locals import *
 
 cha = character.Character()
 lab = labyrinth.Labyrinth(cha.pos_mgyver)
 obj = objects.Objects()
+pygame.init()
 
 
 def parse_arguments():
@@ -45,6 +48,10 @@ def display(structure):
 
 def main():
 
+    windows = pygame.display.set_mode((30 * (14 + 1), 30 * (14 + 1)))
+
+    #icone = pygame.image.load("")
+
     args = parse_arguments()
     if args.debug:
         log.basicConfig(level=log.DEBUG)
@@ -75,45 +82,69 @@ def main():
         lab.add_sprite(pos_tube, "2")
         lab.add_sprite(pos_mgyver, cha.sprite_mgyver)
 
-        while end == True:
+        while end:
 
-            structure_laby = lab.structure_laby
-            os.system("clear")
-            print("###################################\n"\
-                "## Aidez MacGyver à s'échapper ! ##\n"\
-                "###################################\n")
+            time.sleep(.3)
+            #os.system("clear")
+            # print("###################################\n"\
+            #     "## Aidez MacGyver à s'échapper ! ##\n"\
+            #     "###################################\n")
 
 
-            if not endgame(structure_laby):
-                if cha.objects == 2:
-                    end_msg = msg[3]
-                else:
-                    end_msg = msg[4]
-                log.warning(end_msg)
-                break
 
-            if not cha.check_position(entry, structure_laby):
-                log.warning(msg[2])
-            else:
-                lab.move_sprite(cha.pos_mgyver, cha.sprite_mgyver)
 
-            # display of the Labyrinth in the console
-            display(structure_laby)
 
-            # display info messages or debug messages
-            log.info("position X: {0}".format(int(cha.x_position)))
-            log.info("position Y: {0}".format(int(cha.y_position)))
-            log.info("Objets disponible: {0}".format(int(cha.objects)))
-            log.debug(structure_laby)
+            # entry = input("\n{}".format(message))
+            # # if you press of Q key, you quit the game
+            # if entry == "Q":
+            #     break
+            # # if press q or d or z or s, move MacGyver
+            # elif entry == "q" or entry == "d" or entry == "z" or entry == "s":
 
-            entry = input("\n{}".format(message))
-            # if you press of Q key, you quit the game
-            if entry == "Q":
-                break
-            # if press q or d or z or s, move MacGyver
-            elif entry == "q" or entry == "d" or entry == "z" or entry == "s":
+            #message = msg[1]
+
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    end = False
+                if event.type == KEYDOWN:
+                    if event.key == K_UP:
+                        entry = "z"
+                    if event.key == K_DOWN:
+                        log.info("touche DOWN")
+                        entry = "s"
+                    if event.key == K_LEFT:
+                        log.info("touche LEFT")
+                        entry = "q"
+                    if event.key == K_RIGHT:
+                        log.info("touche RIGHT")
+                        entry = "d"
+
+                structure_laby = lab.structure_laby
+
+                # display info messages or debug messages
+                log.info("position X: {0}".format(int(cha.x_position)))
+                log.info("position Y: {0}".format(int(cha.y_position)))
+                log.info("Objets disponible: {0}".format(int(cha.objects)))
+                log.debug(structure_laby)
                 cha.move(entry)
-            message = msg[1]
+
+                # check position if wall or objects
+                if not cha.check_position(entry, structure_laby):
+                    log.warning(msg[2])
+                else:
+                    lab.move_sprite(cha.pos_mgyver, cha.sprite_mgyver)
+
+                if not endgame(structure_laby):
+                    if cha.objects == 2:
+                        end_msg = msg[3]
+                    else:
+                        end_msg = msg[4]
+                    log.warning(end_msg)
+                    end = False
+
+                # display of the Labyrinth in the console
+                display(structure_laby)
+
 
 
     # return an error when the name of file is incorrect

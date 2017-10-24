@@ -10,11 +10,12 @@ class Labyrinth:
             - position of Macgyver"""
         self.structure_laby = []
         self.pos_init = pos_init
+        self.max_x = self.max_y = 0
 
 
     def structure(self, file):
         """ Load structure Labyrinth """
-
+        max_x, max_y = self.max_x, self.max_y
         with open(file, "r") as f:
             structure_laby = []
             # add line of the file to structure_laby list
@@ -26,8 +27,11 @@ class Labyrinth:
                     if sprite != "\n":
                         line_laby.append(sprite)
                         #print(line_laby)
+                    max_x += 1
                 structure_laby.append(line_laby)
                 #print(structure_laby)
+                max_y += 1
+        self.max_x, self.max_y = max_x, max_y
         self.structure_laby = structure_laby
 
 
