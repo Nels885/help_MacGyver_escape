@@ -6,7 +6,7 @@ a needle and ether that will allow MacGyver to lull
 the guard who is at the exit.
 
 ## dependencies:
-Python 3.5 is required.
+Python 3.x is required.
 
 ## Installation:
 
