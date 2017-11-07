@@ -5,6 +5,8 @@ You must collect three items that are a small tube,
 a needle and ether that will allow MacGyver to lull
 the guard who is at the exit.
 
+![alt text](https://github.com/Nels885/help_MacGyver_escape/tree/master/pictures/game_screenshot.png)
+
 ## dependencies:
 Python 3.x is required.
 

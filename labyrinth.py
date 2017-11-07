@@ -66,9 +66,9 @@ class Labyrinth:
         """
         sprite_wall = pygame.image.load("pictures/wall.png").convert()
         sprite_ground = pygame.image.load("pictures/ground.png").convert()
-        sprite_needle = pygame.image.load("pictures/tube.png").convert_alpha()
+        sprite_needle = pygame.image.load("pictures/needle.png").convert_alpha()
         sprite_tube = pygame.image.load("pictures/tube.png").convert_alpha()
-        sprite_ether = pygame.image.load("pictures/tube.png").convert_alpha()
+        sprite_ether = pygame.image.load("pictures/ether.png").convert_alpha()
         sprite_guardian = pygame.image.load("pictures/murdoc-32.png").convert_alpha()
         sprite_mgyver = pygame.image.load("pictures/macgyver-32-43.png").convert_alpha()
 
