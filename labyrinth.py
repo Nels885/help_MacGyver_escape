@@ -1,23 +1,26 @@
 import pygame
 
-
 class Labyrinth:
-    """ Class of the labyrinth structure """
+    """### Class of the labyrinth structure ###"""
 
     def __init__(self, pos_init):
         """
         ## Initialize class Labyrinth ##
         Initialization of variables used by class Labyrinth
-            - list integrating the labyrinth structure
-            - initial position of MacGyver
-            - variable to move MacGyver
+            :param pos_init: initial position of MacGyver
         """
         self.structure_laby = []
         self.pos_init = pos_init
         self.max_x = self.max_y = 0
 
     def structure(self, file):
-        """ Load structure Labyrinth """
+        """
+        ## Load structure Labyrinth ##
+        load the file representing the structure
+        of the labyrinth
+            :param file: structure file
+            :return: add structure in the attribute structure_laby
+        """
         max_x, max_y = self.max_x, self.max_y
         with open(file, "r") as f:
             structure_laby = []
@@ -35,17 +38,32 @@ class Labyrinth:
         self.structure_laby = structure_laby
 
     def add_sprite(self, position, sprite):
-        """ Add sprite on the Labyrinth """
+        """
+        ## Add sprite on the Labyrinth ##
+            :param position: position in the labyrinth
+            :param sprite: picture of the sprite
+            :return: add the sprite in the labyrinth
+        """
         self.structure_laby[position[1]][position[0]] = sprite
 
     def move_sprite(self, position, sprite):
-        """ Move sprite on the Labyrinth """
+        """
+        ## Move sprite on the Labyrinth ##
+            :param position: position in the labyrinth
+            :param sprite: picture of the sprite
+            :return: changing the position of sprite
+        """
         self.structure_laby[self.pos_init[1]][self.pos_init[0]] = " "
         self.structure_laby[position[1]][position[0]] = sprite
         self.pos_init = position
 
     def display(self, windows, size_sprite):
-        """ Load all sprites of the game """
+        """
+        ## Load all sprites of the game ##
+            :param windows: windows created by pygame
+            :param size_sprite: size des sprites
+            :return: add all sprites to the windows of pygame
+        """
         sprite_wall = pygame.image.load("pictures/wall.png").convert()
         sprite_ground = pygame.image.load("pictures/ground.png").convert()
         sprite_needle = pygame.image.load("pictures/tube.png").convert_alpha()

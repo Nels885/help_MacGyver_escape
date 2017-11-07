@@ -1,14 +1,21 @@
 class Character:
-    """ Class of the person to be evolved on the labyrinth """
+    """### Class of the person to be evolved on the labyrinth ###"""
 
     def __init__(self):
-        """ Initialize class Character """
+        """
+        ## Initialize class Character ##
+        """
         self.sprite_guardian = "G"
         self.sprite_mgyver = "M"
         self.pos_mgyver = self.x_position, self.y_position = (1, 1)
         self.objects = 0
 
     def move(self, direction):
+        """
+        ## Moving the character ##
+            :param direction: direction that the player has chosen
+            :return: new character position
+        """
         self.direction = direction
         # if press right key, move to the right
         if self.direction == "right" and self.x_position < 14:
@@ -25,7 +32,12 @@ class Character:
         self.pos_mgyver = (self.x_position, self.y_position)
 
     def check_position(self, structure):
-        # if a wall present, don't move MacGyver
+        """
+        ## Check position of character ##
+        if a wall present, don't move MacGyver
+            :param structure: attribute of labyrinth class
+            :return: True or False if a wall present
+        """
         check = structure[self.pos_mgyver[1]][self.pos_mgyver[0]]
         if check != "0":
             if check in "NTE":
