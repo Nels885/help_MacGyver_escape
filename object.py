@@ -1,4 +1,10 @@
-import logging as lg
+"""
+********************
+    OBJECT CLASS
+********************
+"""
+
+import logging as log
 from random import randint
 
 
@@ -20,16 +26,27 @@ class Object:
             :return: random position of an object
         """
         loop = True
+        position = (0, 0)
         while loop:
             x_position = randint(2, 14)
             y_position = randint(2, 14)
             position = x_position, y_position
-            for i in range(self.counter):
-                if position == self.pos_not_object[0]:
-                    lg.error("Erreur position: {}".format(position))
-                    break
-                elif structure[position[1]][position[0]] == " ":
+            if self.check_object(position):
+                if structure[position[1]][position[0]] == " ":
                     loop = False
         self.pos_not_object.append(position)
         self.counter += 1
         return position
+
+    def check_object(self, position):
+        """
+        ## Check if the object exists ##
+            :param position: position to check
+            :return: True or False
+        """
+        check = True
+        for i in range(self.counter):
+            if position == self.pos_not_object[i]:
+                log.error("Erreur position d'objet: {}".format(position))
+                check = False
+        return check

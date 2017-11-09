@@ -1,3 +1,10 @@
+"""
+***********************
+    CHARACTER CLASS
+***********************
+"""
+
+
 class Character:
     """### Class of the person to be evolved on the labyrinth ###"""
 
@@ -5,6 +12,7 @@ class Character:
         """
         ## Initialize class Character ##
         """
+        self.direction = None
         self.sprite_guardian = "G"
         self.sprite_mgyver = "M"
         self.pos_mgyver = self.x_position, self.y_position = (1, 1)

@@ -1,4 +1,11 @@
+"""
+***********************
+    LABYRINTH CLASS
+***********************
+"""
+
 import pygame
+
 
 class Labyrinth:
     """### Class of the labyrinth structure ###"""
@@ -72,7 +79,7 @@ class Labyrinth:
         sprite_guardian = pygame.image.load("pictures/murdoc-32.png").convert_alpha()
         sprite_mgyver = pygame.image.load("pictures/macgyver-32-43.png").convert_alpha()
 
-        for y in range (15):
+        for y in range(15):
             x = 0
             line_modif = ""
             line = self.structure_laby[y]
