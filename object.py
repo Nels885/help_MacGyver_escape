@@ -4,18 +4,19 @@
 ********************
 """
 
-import logging as log
 from random import randint
 
 
 class Object:
     """### Class Object to pick up ###"""
 
-    def __init__(self, pos_mgyver):
+    def __init__(self, log, pos_mgyver):
         """
         ## Initialize Class Object ##
-        :param pos_mgyver: position of MacGyver on the labyrinth
+            :param log: logging module
+            :param pos_mgyver: position of MacGyver on the labyrinth
         """
+        self.lg = log
         self.pos_not_object = [pos_mgyver]
         self.counter = 1
 
@@ -47,6 +48,6 @@ class Object:
         check = True
         for i in range(self.counter):
             if position == self.pos_not_object[i]:
-                log.error("Erreur position d'objet: {}".format(position))
+                self.lg.error("Erreur position d'objet: {}".format(position))
                 check = False
         return check

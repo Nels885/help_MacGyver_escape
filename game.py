@@ -25,9 +25,9 @@ POS_MGYVER = (1, 1)
 NAME_MGYVER = "M"
 
 # Class initializes
-cha = character.Character(NAME_OBJECT, POS_MGYVER)
-lab = labyrinth.Labyrinth(POS_MGYVER)
-obj = object.Object(cha.pos_mgyver)
+lab = labyrinth.Labyrinth(log, POS_MGYVER, NB_SPRITE)
+cha = character.Character(log, NAME_OBJECT, POS_MGYVER)
+obj = object.Object(log, POS_MGYVER)
 
 # Pygame Initialize
 pygame.init()
@@ -67,6 +67,7 @@ class Game:
         ## Initialize Labyrinth and sprite ##
             :param file: structure file
         """
+        self.quit = False
         self.end_text = None
         lab.structure(file)
         for number in range(NB_OBJECT):
@@ -74,6 +75,27 @@ class Game:
             lab.add_sprite(pos_object, NAME_OBJECT[number])
         lab.add_sprite(POS_MGYVER, NAME_MGYVER)
         self.structure = lab.structure_laby
+
+    def check_keys(self):
+        """
+        ## checking keydown ##
+            :return: New position of MacGyver
+        """
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.end_text = self.QUIT_TEXT
+                self.quit = True
+            if event.type == KEYDOWN:
+                if event.key == K_UP:
+                    cha.move("up")
+                if event.key == K_DOWN:
+                    cha.move("down")
+                if event.key == K_LEFT:
+                    cha.move("left")
+                if event.key == K_RIGHT:
+                    cha.move("right")
+                cha.check_position(lab.structure_laby)
+
 
     def display(self):
         """
@@ -98,7 +120,7 @@ class Game:
         labyrinth with the objects
             :return: end game is True or False
         """
-        if self.structure[cha.pos_mgyver[1]][cha.pos_mgyver[0]] == "F":
+        if cha.pos_gardian or self.quit:
             if cha.objects == NB_OBJECT:
                 self.end_text = self.WON_TEXT
             else:
@@ -151,38 +173,18 @@ def main():
         end = True
         while end:
             pygame.time.delay(100)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    game.end_text = game.QUIT_TEXT
-                    end = False
-                if event.type == KEYDOWN:
-                    if event.key == K_UP:
-                        cha.move("up")
-                    if event.key == K_DOWN:
-                        cha.move("down")
-                    if event.key == K_LEFT:
-                        cha.move("left")
-                    if event.key == K_RIGHT:
-                        cha.move("right")
-                    end = game.end_game()
-
-                    # check position if wall or objects
-                    if not cha.check_position(lab.structure_laby):
-                        log.info("Erreur de direction !!!")
-                    else:
-                        lab.move_sprite(cha.pos_mgyver, NAME_MGYVER)
-                        # display info messages or debug messages
-                        log.info("Position MacGyver (x, y): {}, {}".format(int(cha.x_position), int(cha.y_position)))
-                        log.info("Objets disponible: {}".format(int(cha.objects)))
-                        for i in range(15):
-                            log.debug(lab.structure_laby[i])
-
+            game.check_keys()
+            lab.move_sprite(cha.pos_mgyver, NAME_MGYVER)
             # display of the Labyrinth
             game.display()
             pygame.display.flip()
+
+            end = game.end_game()
         game.end_screen()
 
     # return an error when the name of file is incorrect
+    except Warning as err:
+        log.error(err)
     except FileNotFoundError as err:
         log.error(err)
 
