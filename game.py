@@ -28,7 +28,6 @@ obj = object.Object(cha.pos_mgyver)
 
 class Game:
     """### Game class ###"""
-
     # List of messages to display
     WON_TEXT = "Vous avez GAGNé  :D !!!"
     LOST_TEXT = "Vous avez PERDU :( !!!"
@@ -49,6 +48,24 @@ class Game:
         lab.add_sprite(pos_tube, "T")
         lab.add_sprite(pos_ether, "E")
         lab.add_sprite(pos_mgyver, cha.sprite_mgyver)
+
+    def display(self, sprite_lab, size_sprite):
+        """
+        ## Load all sprites of the game ##
+            :param sprite_lab: dictionary of sprites for the window of pygame
+            :param size_sprite: size des sprites
+            :return: add all sprites to the window of pygame
+        """
+        for y in range(15):
+            x = 0
+            line_modif = ""
+            line = lab.structure_laby[y]
+            for value in line:
+                for key in sprite_lab.keys():
+                    if value == key:
+                        windows.blit(sprite_lab[key], (size_sprite * x, size_sprite * y))
+                line_modif += value
+                x += 1
 
     def end_game(self, structure):
         """
@@ -130,7 +147,7 @@ def main():
                         log.debug(lab.structure_laby[i])
 
         # display of the Labyrinth
-        lab.display(windows, SIZE_SPRITE)
+        game.display(sprite_lab, SIZE_SPRITE)
         pygame.display.flip()
     game.end_screen()
 
@@ -152,6 +169,16 @@ if __name__ == "__main__":
         background = pygame.Surface(windows.get_size())
         background = background.convert()
         background.fill((0, 0, 0))
+        SPRITE_WALL = pygame.image.load("pictures/wall.png").convert()
+        SPRITE_GROUND = pygame.image.load("pictures/ground.png").convert()
+        SPRITE_NEEDLE = pygame.image.load("pictures/needle.png").convert_alpha()
+        SPRITE_TUBE = pygame.image.load("pictures/tube.png").convert_alpha()
+        SPRITE_ETHER = pygame.image.load("pictures/ether.png").convert_alpha()
+        SPRITE_GUARDIAN = pygame.image.load("pictures/murdoc-32.png").convert_alpha()
+        SPRITE_MGYVER = pygame.image.load("pictures/macgyver-32-43.png").convert_alpha()
+
+        sprite_lab = {" ": SPRITE_GROUND, "0": SPRITE_WALL, "F": SPRITE_GUARDIAN, "M": SPRITE_MGYVER,
+                      "N": SPRITE_NEEDLE, "T": SPRITE_TUBE, "E": SPRITE_ETHER}
         main()
     # return an error when the name of file is incorrect
     except FileNotFoundError as err:
