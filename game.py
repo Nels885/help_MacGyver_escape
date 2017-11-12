@@ -16,7 +16,7 @@ import labyrinth
 import character
 import object
 
-# Constantes
+# Constants
 SIZE_SPRITE = 40
 NB_SPRITE = 15
 NB_OBJECT = 3
@@ -95,7 +95,6 @@ class Game:
                 if event.key == K_RIGHT:
                     cha.move("right")
                 cha.check_position(lab.structure_laby)
-
 
     def display(self):
         """
