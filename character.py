@@ -8,14 +8,15 @@
 class Character:
     """### Class of the person to be evolved on the labyrinth ###"""
 
-    def __init__(self):
+    def __init__(self, name_object, pos_mgyver):
         """
         ## Initialize class Character ##
+            :param name_object: Letter corresponding to objects in labyrinth structure
+            :param pos_mgyver: Initial position of MacGyver
         """
         self.direction = None
-        self.sprite_guardian = "G"
-        self.sprite_mgyver = "M"
-        self.pos_mgyver = self.x_position, self.y_position = (1, 1)
+        self.names = "".join(name_object)
+        self.pos_mgyver = self.x_position, self.y_position = pos_mgyver
         self.objects = 0
 
     def move(self, direction):
@@ -48,7 +49,7 @@ class Character:
         """
         check = structure[self.pos_mgyver[1]][self.pos_mgyver[0]]
         if check != "0":
-            if check in "NTE":
+            if check in self.names:
                 self.objects += 1
             return True
         else:
