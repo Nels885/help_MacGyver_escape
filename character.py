@@ -4,22 +4,23 @@
 ***********************
 """
 
+from constants import *
+
 
 class Character:
     """### Class of the person to be evolved on the labyrinth ###"""
 
-    def __init__(self, log, name_object, pos_mgyver):
+    def __init__(self, log, pos_mgyver):
         """
         ## Initialize class Character ##
             :param log: logging module
-            :param name_object: Letter corresponding to objects in labyrinth structure
             :param pos_mgyver: Initial position of MacGyver
         """
         self.lg = log
         self.direction = None
-        self.names = "".join(name_object)
+        self.names = "".join(NAME_OBJECT)
         self.pos_mgyver = self.x_position, self.y_position = pos_mgyver
-        self.pos_gardian = False
+        self.pos_guardian = False
         self.objects = 0
 
     def move(self, direction):
@@ -51,11 +52,11 @@ class Character:
             :return: True or False if a wall present
         """
         check = structure[self.pos_mgyver[1]][self.pos_mgyver[0]]
-        if check != "0":
+        if check != NAME_WALL:
             if check in self.names:
                 self.objects += 1
-            elif check == "F":
-                self.pos_gardian = True
+            elif check == NAME_GUARDIAN:
+                self.pos_guardian = True
             # display info messages or debug messages
             self.lg.info("Position MacGyver (x, y): {}, {}".format(int(self.x_position), int(self.y_position)))
             self.lg.info("Objets disponible: {}".format(int(self.objects)))

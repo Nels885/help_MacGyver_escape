@@ -44,6 +44,6 @@ For basic usage, the script need a text file where
 the labyrinth structure will be saved (see laby.txt file).
 
     Example:
-    $ python3 game.py laby.txt
+    $ python3 main.py laby.txt
     
 Run program with -h or --help for explanations of options.
