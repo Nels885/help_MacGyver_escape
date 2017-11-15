@@ -18,7 +18,7 @@ class Labyrinth:
             :param file: file of the labyrinth structure
         """
         self.structure_laby = []
-        self.pos_mgyver = (0, 0)
+        self.pos_mgyver = POS_INIT
         self.lg = log
         self.structure(file)
 

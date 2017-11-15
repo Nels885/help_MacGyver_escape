@@ -9,8 +9,6 @@
 import logging as log
 import argparse
 
-import pygame
-
 import game
 
 
@@ -40,7 +38,8 @@ def main():
         gam = game.Game(laby_file)
         end = True
         while end:
-            pygame.time.delay(100)
+
+            # check
             gam.check_keys()
 
             # Display of the Labyrinth

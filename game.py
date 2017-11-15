@@ -93,6 +93,7 @@ class Game:
                     self.cha.move("right")
                 self.cha.check_position(self.lab.structure_laby)
         self.lab.move_sprite(self.cha.pos_mgyver, NAME_MGYVER)
+        pygame.time.delay(100)
 
     def display(self):
         """
